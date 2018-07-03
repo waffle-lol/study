@@ -23,22 +23,29 @@ function readLine() {
 /////////////// ignore above this line ////////////////////
 
 function main() {
-    var n_temp = readLine().split(' ');
-    var n = parseInt(n_temp[0]);
-    var m = parseInt(n_temp[1]);
-    const container = [];
-    let max = 0;
-    
-    for(var a0 = 0; a0 < m; a0++){
-        var a_temp = readLine().split(' ');
-        var a = parseInt(a_temp[0]);
-        var b = parseInt(a_temp[1]);
-        var k = parseInt(a_temp[2]);
-        for (let i = a; i < b + 1; i++) {
-            container[i] = (container[i] || 0) + k;
-            max = max < container[i] ? container[i] : max;
-        }
-    }
-    console.log(max);
+  const [arrLength, operations] = readLine().split(' ').map(Number);
 
+  const container = {};
+  let max = -Infinity;
+  let val = 0;
+
+  for (let a0 = 0; a0 < operations; a0++){
+    const [a, b, k] = readLine().split(' ').map(Number);
+    if (container[a]) {
+      container[a] += k;
+    } else {
+      container[a] = k;
+    }
+    if (container[b + 1]) {
+      container[b + 1] -= k;      
+    } else {
+      container[b + 1] = -k;
+    }
+  }
+  Object.keys(container).forEach(key => {
+    val += container[key];
+    if (val > max) max = val;
+  })
+  console.log(max);
 }
+
